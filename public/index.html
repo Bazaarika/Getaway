@@ -1,49 +1,47 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bazaarika Free Fire – Entry ₹10</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bazaarika Free Fire Payment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
-    *{box-sizing:border-box} body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#0b0f19;color:#eaeef7}
-    .wrap{max-width:560px;margin:32px auto;padding:20px}
-    .card{background:#131a2a;border:1px solid #25314d;border-radius:16px;padding:20px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
-    h1{font-size:22px;margin:0 0 12px}
-    p{opacity:.85}
-    label{display:block;margin:12px 0 6px}
-    input,button{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #2b3a5c;background:#0f1524;color:#fff}
-    input:focus{outline:2px solid #3a79ff}
-    button{cursor:pointer;background:#3a79ff;border:0;font-weight:700}
-    button:disabled{opacity:.6;cursor:not-allowed}
-    .row{display:grid;gap:12px}
-    .muted{font-size:13px;opacity:.7}
-    .result{margin-top:16px;padding:12px;background:#0f1524;border:1px dashed #31426a;border-radius:12px;display:none}
-    .qr{display:none;text-align:center;margin-top:12px}
-    .qr img{max-width:260px;width:100%;border-radius:12px}
-    .success{color:#6be675}
-    .error{color:#ff6b6b}
-    .link{display:inline-block;margin-top:8px;padding:10px 12px;background:#1a2440;border-radius:10px;text-decoration:none;color:#fff;word-break:break-all}
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Press Start 2P', cursive;background:#0b0c1b;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;}
+    .wrap{max-width:500px;width:100%;padding:20px;background:linear-gradient(135deg,#ff416c,#ff4b2b);border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,0.7);text-align:center;}
+    h1{font-size:20px;margin-bottom:12px;color:#fff;text-shadow:2px 2px #000;}
+    p{opacity:.85;margin-bottom:20px;}
+    label{display:block;margin:10px 0 6px;text-align:left;font-size:12px;}
+    input,button{width:100%;padding:12px 14px;margin-bottom:12px;border-radius:12px;border:none;font-size:14px;}
+    input{background:#1a1c3a;color:#fff;}
+    input:focus{outline:2px solid #ffdd59;}
+    button{background:#ffdd59;color:#000;font-weight:700;cursor:pointer;transition:0.2s;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+    button:hover{transform:scale(1.05);}
+    button:disabled{opacity:.6;cursor:not-allowed;}
+    .result{padding:12px;background:rgba(0,0,0,0.3);border-radius:12px;margin-top:12px;display:none;word-break:break-word;}
+    .qr{display:none;margin-top:12px;}
+    .qr img{max-width:260px;width:100%;border-radius:12px;}
+    .link{display:inline-block;margin-top:8px;padding:10px 12px;background:#000;color:#ffdd59;text-decoration:none;border-radius:10px;}
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="card">
-      <h1>⚔️ Bazaarika Free Fire Tournament</h1>
-      <p>Entry fee <b>₹10</b>. UPI se instant pay kariye.</p>
+    <h1>🔥 Bazaarika Free Fire Tournament 🔥</h1>
+    <p>Enter amount & pay securely via UPI. Safe & fast!</p>
 
-      <div class="row">
-        <label>Mobile (optional)</label>
-        <input id="mobile" type="tel" inputmode="numeric" placeholder="9XXXXXXXXX" />
-      </div>
+    <label>Amount (₹)</label>
+    <input type="number" id="amount" placeholder="Enter Amount" min="1" required />
 
-      <div class="row" style="margin-top:10px">
-        <button id="payBtn">Pay ₹10 with UPI</button>
-      </div>
+    <label>Mobile (optional)</label>
+    <input type="tel" id="mobile" placeholder="9XXXXXXXXX" />
 
-      <div class="result" id="resultBox"></div>
-      <div class="qr" id="qrBox"><img id="qrImg" alt="UPI QR" /></div>
-      <p class="muted">Payment ke baad aapko auto-confirm mil jayega. Kisi dikkat par WhatsApp karein.</p>
-    </div>
+    <label>Remark (optional)</label>
+    <input type="text" id="remark" placeholder="Purpose of payment" />
+
+    <button id="payBtn">Pay Now</button>
+
+    <div class="result" id="resultBox"></div>
+    <div class="qr" id="qrBox"><img id="qrImg" alt="UPI QR Code" /></div>
   </div>
 
   <script>
@@ -52,53 +50,52 @@
     const qrBox = document.getElementById("qrBox");
     const qrImg = document.getElementById("qrImg");
 
-    function showResult(html, isError=false) {
-      resultBox.style.display = "block";
-      resultBox.className = "result " + (isError ? "error" : "success");
+    function showResult(html, isError=false){
+      resultBox.style.display="block";
+      resultBox.style.color = isError ? "#ff6b6b" : "#6be675";
       resultBox.innerHTML = html;
     }
 
     btn.addEventListener("click", async () => {
-      btn.disabled = true; qrBox.style.display = "none"; showResult("Processing...", false);
-      try {
-        const body = {
-          amount: 10,
+      const amount = document.getElementById("amount").value.trim();
+      if(!amount || amount<=0){ showResult("❌ Enter valid amount", true); return; }
+
+      btn.disabled = true;
+      showResult("⏳ Processing...", false);
+      qrBox.style.display = "none";
+
+      try{
+        const payload = {
+          amount: parseInt(amount),
           mobile: document.getElementById("mobile").value.trim(),
-          remark: "Bazaarika Free Fire Entry ₹10"
+          remark: document.getElementById("remark").value.trim() || "Bazaarika Free Fire Payment"
         };
 
-        // same-origin if served by the Node app; otherwise replace with your deployed API base
-        const resp = await fetch("/api/create-order", {
+        const resp = await fetch("https://getaway-zapupi.onrender.com/api/create-order", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body)
+          body: JSON.stringify(payload)
         });
 
         const data = await resp.json();
-        if (!resp.ok || !data.ok) {
-          throw new Error((data && (data.error?.message || data.error)) || "Failed");
-        }
+        if(!resp.ok || !data.ok) throw new Error((data.error && data.error.message) || data.error || "Failed");
 
         const p = data.provider || {};
-        // Common possibilities; adjust keys to what ZapUPI returns in your account
-        const payUrl = p.pay_url || p.payment_url || p.short_url || p.link || "";
-        const orderId = p.order_id || p.id || p.reference || "";
-        const qr = p.qr || p.qr_image || p.qr_url || "";
+        const payUrl = p.payment_url || p.pay_url || "";
+        const orderId = p.order_id || p.id || "";
+        const qr = p.qr || p.qr_image || "";
 
         let html = "";
-        if (orderId) html += `<div><b>Order:</b> ${orderId}</div>`;
-        if (payUrl) html += `<a class="link" href="${payUrl}" target="_blank" rel="noopener">Open UPI Pay Link</a>`;
-        if (!payUrl && !qr) html += `<div>UPI link generate nahi hua. Thodi der baad try karein.</div>`;
+        if(orderId) html += `<div><b>Order ID:</b> ${orderId}</div>`;
+        if(payUrl) html += `<a class="link" href="${payUrl}" target="_blank">🔗 Open UPI Pay Link</a>`;
+        if(!payUrl && !qr) html += `<div>No UPI link generated. Try again later.</div>`;
 
         showResult(html, false);
+        if(qr){ qrImg.src = qr; qrBox.style.display = "block"; }
 
-        if (qr) {
-          qrImg.src = qr;
-          qrBox.style.display = "block";
-        }
-      } catch (e) {
-        showResult("Error: " + e.message, true);
-      } finally {
+      }catch(e){
+        showResult("❌ Error: " + e.message, true);
+      }finally{
         btn.disabled = false;
       }
     });
