@@ -1,18 +1,19 @@
 const express = require("express");
-const fetch = require("node-fetch"); // npm install node-fetch
+const fetch = require("node-fetch"); // npm install node-fetch@2
 const cors = require("cors");
+const path = require("path");
 const app = express();
 
-// Environment Variables from Render
-const TOKEN_KEY = process.env.API_TOKEN;      // ZapUPI token
-const SECRET_KEY = process.env.SECRET_KEY;    // ZapUPI secret
-const BASE_URL = "https://api.zapupi.com/api/create-order";
+// Environment Variables
+const TOKEN_KEY = process.env.API_TOKEN;
+const SECRET_KEY = process.env.SECRET_KEY;
+const ZAPUPI_URL = "https://api.zapupi.com/api/create-order";
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-app.use(express.static("public")); // Serve frontend
+app.use(express.static(path.join(__dirname, "public"))); // Serve frontend
 
 // API Route to create order
 app.post("/api/create-order", async (req, res) => {
@@ -20,7 +21,7 @@ app.post("/api/create-order", async (req, res) => {
     const { amount, mobile, remark } = req.body;
     if (!amount || amount <= 0) return res.status(400).json({ ok:false, error:"Invalid amount" });
 
-    // Generate unique order_id
+    // Unique order_id
     const order_id = "BZR" + Date.now();
 
     // Prepare form data for ZapUPI
@@ -33,7 +34,7 @@ app.post("/api/create-order", async (req, res) => {
     if (remark) params.append("remark", remark);
 
     // Call ZapUPI API
-    const response = await fetch(BASE_URL, {
+    const response = await fetch(ZAPUPI_URL, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: params.toString()
@@ -45,7 +46,6 @@ app.post("/api/create-order", async (req, res) => {
       return res.status(400).json({ ok:false, error:data.message || "ZapUPI error" });
     }
 
-    // Success → return payment link & order_id
     res.json({ ok:true, provider: { payment_url:data.payment_url, order_id:data.order_id } });
 
   } catch (err) {
