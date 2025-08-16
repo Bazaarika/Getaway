@@ -32,7 +32,7 @@ app.post("/api/create-order", async (req, res) => {
     params.append("order_id", order_id);
     if (mobile) params.append("custumer_mobile", mobile);
     if (remark) params.append("remark", remark);
-
+    params.append("redirect_url", redirectUrl); // <--- Add this
     // Call ZapUPI API
     const response = await fetch(ZAPUPI_URL, {
       method: "POST",
