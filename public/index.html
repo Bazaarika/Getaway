@@ -1,104 +1,102 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bazaarika Free Fire Payment</title>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Press Start 2P', cursive;background:#0b0c1b;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;}
-    .wrap{max-width:500px;width:100%;padding:20px;background:linear-gradient(135deg,#ff416c,#ff4b2b);border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,0.7);text-align:center;}
-    h1{font-size:20px;margin-bottom:12px;color:#fff;text-shadow:2px 2px #000;}
-    p{opacity:.85;margin-bottom:20px;}
-    label{display:block;margin:10px 0 6px;text-align:left;font-size:12px;}
-    input,button{width:100%;padding:12px 14px;margin-bottom:12px;border-radius:12px;border:none;font-size:14px;}
-    input{background:#1a1c3a;color:#fff;}
-    input:focus{outline:2px solid #ffdd59;}
-    button{background:#ffdd59;color:#000;font-weight:700;cursor:pointer;transition:0.2s;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
-    button:hover{transform:scale(1.05);}
-    button:disabled{opacity:.6;cursor:not-allowed;}
-    .result{padding:12px;background:rgba(0,0,0,0.3);border-radius:12px;margin-top:12px;display:none;word-break:break-word;}
-    .qr{display:none;margin-top:12px;}
-    .qr img{max-width:260px;width:100%;border-radius:12px;}
-    .link{display:inline-block;margin-top:8px;padding:10px 12px;background:#000;color:#ffdd59;text-decoration:none;border-radius:10px;}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bazaarika Free Fire Payment</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Press Start 2P', cursive;background:#0b0c1b;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;}
+.wrap{max-width:500px;width:100%;padding:20px;background:linear-gradient(135deg,#ff416c,#ff4b2b);border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,0.7);text-align:center;}
+h1{font-size:20px;margin-bottom:12px;color:#fff;text-shadow:2px 2px #000;}
+p{opacity:.85;margin-bottom:20px;}
+label{display:block;margin:10px 0 6px;text-align:left;font-size:12px;}
+input,button{width:100%;padding:12px 14px;margin-bottom:12px;border-radius:12px;border:none;font-size:14px;}
+input{background:#1a1c3a;color:#fff;}
+input:focus{outline:2px solid #ffdd59;}
+button{background:#ffdd59;color:#000;font-weight:700;cursor:pointer;transition:0.2s;box-shadow:0 4px 12px rgba(0,0,0,0.3);}
+button:hover{transform:scale(1.05);}
+button:disabled{opacity:.6;cursor:not-allowed;}
+.result{padding:12px;background:rgba(0,0,0,0.3);border-radius:12px;margin-top:12px;display:none;word-break:break-word;}
+.qr{display:none;margin-top:12px;}
+.qr img{max-width:260px;width:100%;border-radius:12px;}
+.link{display:inline-block;margin-top:8px;padding:10px 12px;background:#000;color:#ffdd59;text-decoration:none;border-radius:10px;}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>🔥 Bazaarika Free Fire Tournament 🔥</h1>
-    <p>Enter amount & pay securely via UPI. Safe & fast!</p>
+<div class="wrap">
+<h1>🔥 Bazaarika Free Fire Tournament 🔥</h1>
+<p>Enter amount & pay securely via UPI. Safe & fast!</p>
 
-    <label>Amount (₹)</label>
-    <input type="number" id="amount" placeholder="Enter Amount" min="1" required />
+<label>Amount (₹)</label>
+<input type="number" id="amount" placeholder="Enter Amount" min="1" required />
 
-    <label>Mobile (optional)</label>
-    <input type="tel" id="mobile" placeholder="9XXXXXXXXX" />
+<label>Mobile (optional)</label>
+<input type="tel" id="mobile" placeholder="9XXXXXXXXX" />
 
-    <label>Remark (optional)</label>
-    <input type="text" id="remark" placeholder="Purpose of payment" />
+<label>Remark (optional)</label>
+<input type="text" id="remark" placeholder="Purpose of payment" />
 
-    <button id="payBtn">Pay Now</button>
+<button id="payBtn">Pay Now</button>
 
-    <div class="result" id="resultBox"></div>
-    <div class="qr" id="qrBox"><img id="qrImg" alt="UPI QR Code" /></div>
-  </div>
+<div class="result" id="resultBox"></div>
+<div class="qr" id="qrBox"><img id="qrImg" alt="UPI QR Code" /></div>
+</div>
 
-  <script>
-    const btn = document.getElementById("payBtn");
-    const resultBox = document.getElementById("resultBox");
-    const qrBox = document.getElementById("qrBox");
-    const qrImg = document.getElementById("qrImg");
+<script>
+const btn = document.getElementById("payBtn");
+const resultBox = document.getElementById("resultBox");
+const qrBox = document.getElementById("qrBox");
+const qrImg = document.getElementById("qrImg");
 
-    function showResult(html, isError=false){
-      resultBox.style.display="block";
-      resultBox.style.color = isError ? "#ff6b6b" : "#6be675";
-      resultBox.innerHTML = html;
-    }
+function showResult(html, isError=false){
+  resultBox.style.display="block";
+  resultBox.style.color = isError ? "#ff6b6b" : "#6be675";
+  resultBox.innerHTML = html;
+}
 
-    btn.addEventListener("click", async () => {
-      const amount = document.getElementById("amount").value.trim();
-      if(!amount || amount<=0){ showResult("❌ Enter valid amount", true); return; }
+btn.addEventListener("click", async () => {
+  const amount = document.getElementById("amount").value.trim();
+  if(!amount || amount<=0){ showResult("❌ Enter valid amount", true); return; }
 
-      btn.disabled = true;
-      showResult("⏳ Processing...", false);
-      qrBox.style.display = "none";
+  btn.disabled = true;
+  showResult("⏳ Processing...", false);
+  qrBox.style.display = "none";
 
-      try{
-        const payload = {
-          amount: parseInt(amount),
-          mobile: document.getElementById("mobile").value.trim(),
-          remark: document.getElementById("remark").value.trim() || "Bazaarika Free Fire Payment"
-        };
+  try{
+    const payload = {
+      amount: parseInt(amount),
+      mobile: document.getElementById("mobile").value.trim(),
+      remark: document.getElementById("remark").value.trim() || "Bazaarika Free Fire Payment"
+    };
 
-        const resp = await fetch("https://getaway-zapupi.onrender.com/api/create-order", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-
-        const data = await resp.json();
-        if(!resp.ok || !data.ok) throw new Error((data.error && data.error.message) || data.error || "Failed");
-
-        const p = data.provider || {};
-        const payUrl = p.payment_url || p.pay_url || "";
-        const orderId = p.order_id || p.id || "";
-        const qr = p.qr || p.qr_image || "";
-
-        let html = "";
-        if(orderId) html += `<div><b>Order ID:</b> ${orderId}</div>`;
-        if(payUrl) html += `<a class="link" href="${payUrl}" target="_blank">🔗 Open UPI Pay Link</a>`;
-        if(!payUrl && !qr) html += `<div>No UPI link generated. Try again later.</div>`;
-
-        showResult(html, false);
-        if(qr){ qrImg.src = qr; qrBox.style.display = "block"; }
-
-      }catch(e){
-        showResult("❌ Error: " + e.message, true);
-      }finally{
-        btn.disabled = false;
-      }
+    const resp = await fetch("/api/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     });
-  </script>
+
+    const data = await resp.json();
+    if(!resp.ok || !data.ok) throw new Error(data.error || "Failed");
+
+    const p = data.provider || {};
+    const payUrl = p.payment_url || "";
+    const orderId = p.order_id || "";
+
+    let html = "";
+    if(orderId) html += `<div><b>Order ID:</b> ${orderId}</div>`;
+    if(payUrl) html += `<a class="link" href="${payUrl}" target="_blank">🔗 Open UPI Pay Link</a>`;
+    if(!payUrl) html += `<div>No UPI link generated. Try again later.</div>`;
+
+    showResult(html, false);
+
+  }catch(e){
+    showResult("❌ Error: " + e.message, true);
+  }finally{
+    btn.disabled = false;
+  }
+});
+</script>
 </body>
 </html>
