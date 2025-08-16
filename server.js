@@ -5,8 +5,9 @@ const path = require("path");
 const app = express();
 
 // Environment Variables
-const TOKEN_KEY = process.env.API_TOKEN;
-const SECRET_KEY = process.env.SECRET_KEY;
+const TOKEN_KEY = process.env.API_TOKEN;      // ZapUPI token
+const SECRET_KEY = process.env.SECRET_KEY;    // ZapUPI secret
+const REDIRECT_URL = process.env.REDIRECT_URL || "https://getaway-zapupi.onrender.com";
 const ZAPUPI_URL = "https://api.zapupi.com/api/create-order";
 
 // Middleware
@@ -32,7 +33,8 @@ app.post("/api/create-order", async (req, res) => {
     params.append("order_id", order_id);
     if (mobile) params.append("custumer_mobile", mobile);
     if (remark) params.append("remark", remark);
-    params.append("redirect_url", redirectUrl); // <--- Add this
+    params.append("redirect_url", REDIRECT_URL); // <-- Important: ZapUPI will redirect here after payment
+
     // Call ZapUPI API
     const response = await fetch(ZAPUPI_URL, {
       method: "POST",
