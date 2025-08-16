@@ -19,8 +19,6 @@ button{background:#ffdd59;color:#000;font-weight:700;cursor:pointer;transition:0
 button:hover{transform:scale(1.05);}
 button:disabled{opacity:.6;cursor:not-allowed;}
 .result{padding:12px;background:rgba(0,0,0,0.3);border-radius:12px;margin-top:12px;display:none;word-break:break-word;}
-.qr{display:none;margin-top:12px;}
-.qr img{max-width:260px;width:100%;border-radius:12px;}
 .link{display:inline-block;margin-top:8px;padding:10px 12px;background:#000;color:#ffdd59;text-decoration:none;border-radius:10px;}
 </style>
 </head>
@@ -41,14 +39,11 @@ button:disabled{opacity:.6;cursor:not-allowed;}
 <button id="payBtn">Pay Now</button>
 
 <div class="result" id="resultBox"></div>
-<div class="qr" id="qrBox"><img id="qrImg" alt="UPI QR Code" /></div>
 </div>
 
 <script>
 const btn = document.getElementById("payBtn");
 const resultBox = document.getElementById("resultBox");
-const qrBox = document.getElementById("qrBox");
-const qrImg = document.getElementById("qrImg");
 
 function showResult(html, isError=false){
   resultBox.style.display="block";
@@ -62,7 +57,6 @@ btn.addEventListener("click", async () => {
 
   btn.disabled = true;
   showResult("⏳ Processing...", false);
-  qrBox.style.display = "none";
 
   try{
     const payload = {
@@ -80,16 +74,13 @@ btn.addEventListener("click", async () => {
     const data = await resp.json();
     if(!resp.ok || !data.ok) throw new Error(data.error || "Failed");
 
-    const p = data.provider || {};
-    const payUrl = p.payment_url || "";
-    const orderId = p.order_id || "";
-
-    let html = "";
-    if(orderId) html += `<div><b>Order ID:</b> ${orderId}</div>`;
-    if(payUrl) html += `<a class="link" href="${payUrl}" target="_blank">🔗 Open UPI Pay Link</a>`;
-    if(!payUrl) html += `<div>No UPI link generated. Try again later.</div>`;
-
-    showResult(html, false);
+    const payUrl = data.provider.payment_url;
+    if(payUrl){
+      showResult(`🔗 Redirecting to UPI Payment...`, false);
+      window.location.href = payUrl; // Directly redirect user to UPI payment page
+    } else {
+      showResult("❌ No UPI link generated. Try again later.", true);
+    }
 
   }catch(e){
     showResult("❌ Error: " + e.message, true);
